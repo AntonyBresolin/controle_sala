@@ -1,9 +1,6 @@
 package com.github.ms_usuario.domain.model;
 
-import com.github.ms_usuario.domain.model.value.Cpf;
-import com.github.ms_usuario.domain.model.value.DataNascimento;
-import com.github.ms_usuario.domain.model.value.Email;
-import com.github.ms_usuario.domain.model.value.Nome;
+import com.github.ms_usuario.domain.model.value.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,11 +23,14 @@ public class Usuario {
     private Cpf cpf;
     @Embedded
     private DataNascimento dataNascimento;
+    @Embedded
+    private Endereco endereco;
 
-    public Usuario(Nome nome, Email email, Cpf cpf, DataNascimento dataNascimento) {
+    public Usuario(Nome nome, Email email, Cpf cpf, DataNascimento dataNascimento, Endereco endereco) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
+        this.endereco = endereco;
     }
 }

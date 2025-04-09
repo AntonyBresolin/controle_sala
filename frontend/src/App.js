@@ -20,6 +20,7 @@ import {
   Snackbar,
   AppBar,
   Toolbar,
+  Divider,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
@@ -29,6 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import TableViewIcon from '@mui/icons-material/TableView';
+import HomeIcon from '@mui/icons-material/Home';
 
 const theme = createTheme({
   palette: {
@@ -51,7 +53,18 @@ export default function App() {
   const [usuarios, setUsuarios] = useState([]);
   const [salas, setSalas] = useState([]);
   const [reservas, setReservas] = useState([]);
-  const [form, setForm] = useState({ nome: "", email: "", cpf: "", dataNascimento: "" });
+  const [form, setForm] = useState({ 
+    nome: "", 
+    email: "", 
+    cpf: "", 
+    dataNascimento: "",
+    endereco: {
+      cidade: "",
+      estado: "",
+      cep: "",
+      rua: ""
+    }
+  });
   const [salaForm, setSalaForm] = useState({ nome: "", capacidade: 0 });
   const [reservaForm, setReservaForm] = useState({ usuarioId: "", salaId: "", dataHora: "" });
   const [cpf, setCpf] = useState("");
@@ -83,6 +96,16 @@ export default function App() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  
+  const handleEnderecoChange = (e) => {
+    setForm({
+      ...form,
+      endereco: {
+        ...form.endereco,
+        [e.target.name]: e.target.value
+      }
+    });
+  };
 
   const showNotification = (message, severity = "success") => {
     setNotification({ open: true, message, severity });
@@ -93,7 +116,18 @@ export default function App() {
   };
 
   const clearForm = () => {
-    setForm({ nome: "", email: "", cpf: "", dataNascimento: "" });
+    setForm({ 
+      nome: "", 
+      email: "", 
+      cpf: "", 
+      dataNascimento: "",
+      endereco: {
+        cidade: "",
+        estado: "",
+        cep: "",
+        rua: ""
+      }
+    });
   };
 
   const clearSalaForm = () => {
@@ -113,6 +147,12 @@ export default function App() {
         email: form.email,
         cpf: form.cpf || null,
         dataNascimento: form.dataNascimento || null,
+        endereco: {
+          cidade: form.endereco.cidade || null,
+          estado: form.endereco.estado || null,
+          cep: form.endereco.cep || null,
+          rua: form.endereco.rua || null
+        }
       });
       showNotification("Usuário criado com sucesso!");
       fetchData("usuarios", setUsuarios);
@@ -259,6 +299,59 @@ export default function App() {
                           value={form.dataNascimento} 
                           onChange={handleChange} 
                           InputLabelProps={{ shrink: true }} 
+                          variant="outlined"
+                        />
+                      </Grid>
+                      
+                      {/* Seção de Endereço */}
+                      <Grid item xs={12} className="mt-3">
+                        <Box className="flex items-center mb-2">
+                          <HomeIcon className="mr-2 text-blue-600" />
+                          <Typography variant="subtitle1" className="font-medium">
+                            Informações de Endereço
+                          </Typography>
+                        </Box>
+                        <Divider className="mb-3" />
+                      </Grid>
+                      
+                      <Grid item xs={6}>
+                        <TextField 
+                          fullWidth 
+                          label="Cidade" 
+                          name="cidade" 
+                          value={form.endereco.cidade} 
+                          onChange={handleEnderecoChange} 
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField 
+                          fullWidth 
+                          label="Estado" 
+                          name="estado" 
+                          value={form.endereco.estado} 
+                          onChange={handleEnderecoChange} 
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField 
+                          fullWidth 
+                          label="CEP" 
+                          name="cep" 
+                          value={form.endereco.cep} 
+                          onChange={handleEnderecoChange} 
+                          variant="outlined"
+                          inputProps={{ maxLength: 9 }}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField 
+                          fullWidth 
+                          label="Rua" 
+                          name="rua" 
+                          value={form.endereco.rua} 
+                          onChange={handleEnderecoChange} 
                           variant="outlined"
                         />
                       </Grid>
