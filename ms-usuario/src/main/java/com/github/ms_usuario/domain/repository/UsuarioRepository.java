@@ -9,4 +9,5 @@ public interface UsuarioRepository {
     Optional<Usuario> findByCpf(String cpf);
     Usuario save(Usuario usuario);
     List<Usuario> findAll();
+    boolean existsById(Long id);
 }

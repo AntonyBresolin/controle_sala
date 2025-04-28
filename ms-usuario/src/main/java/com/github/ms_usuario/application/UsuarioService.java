@@ -19,6 +19,10 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public boolean existePorId(Long id) {
+        return usuarioRepository.existsById(id);
+    }
+
     public Optional<Usuario> buscarPorCpf (String cpf) {
         return usuarioRepository.findByCpf(cpf);
     }

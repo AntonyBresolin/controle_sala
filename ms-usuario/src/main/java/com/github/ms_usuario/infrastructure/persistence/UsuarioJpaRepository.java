@@ -29,6 +29,11 @@ public class UsuarioJpaRepository implements UsuarioRepository {
     }
 
     @Override
+    public boolean existsById(Long id) {
+        return repository.existsById(id);
+    }
+
+    @Override
     public List<Usuario> findAll(){
         return repository.findAll();
     }
