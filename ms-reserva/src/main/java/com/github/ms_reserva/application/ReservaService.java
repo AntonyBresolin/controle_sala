@@ -2,22 +2,41 @@ package com.github.ms_reserva.application;
 
 import com.github.ms_reserva.domain.model.Reserva;
 import com.github.ms_reserva.domain.repository.ReservaRepository;
+import com.github.ms_reserva.infrastructure.messaging.UsuarioValidacaoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class ReservaService {
     private final ReservaRepository reservaRepository;
+    private final UsuarioValidacaoService usuarioValidacaoService;
 
-    public ReservaService(ReservaRepository reservaRepository) {
+    public ReservaService(ReservaRepository reservaRepository, UsuarioValidacaoService usuarioValidacaoService) {
         this.reservaRepository = reservaRepository;
+        this.usuarioValidacaoService = usuarioValidacaoService;
     }
 
     public Reserva salvar(Reserva reserva) {
         validarReserva(reserva);
+
+        try {
+            boolean usuarioValido = usuarioValidacaoService
+                    .validarUsuario(reserva.getUsuarioId().getUsuarioId())
+                    .get(5, TimeUnit.SECONDS);
+
+            if (!usuarioValido) {
+                throw new IllegalArgumentException("Usuário não encontrado");
+            }
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException("Erro ao validar usuário", e);
+        }
+
         return reservaRepository.save(reserva);
     }
 
