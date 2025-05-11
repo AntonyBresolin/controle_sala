@@ -44,9 +44,9 @@ const theme = createTheme({
 });
 
 const API_BASE_URL = {
-  usuarios: "http://localhost:8080/usuarios",
-  salas: "http://localhost:8081/salas",
-  reservas: "http://localhost:8082/reservas",
+  usuarios: "http://localhost/api/usuarios",
+  salas: "http://localhost/api/salas",
+  reservas: "http://localhost/api/reservas",
 };
 
 export default function App() {
