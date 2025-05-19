@@ -16,7 +16,7 @@ Cada microserviço possui:
 - API REST própria
 - Segregação em redes Docker isoladas
 
-![Arquitetura do Sistema](https://github.com/user-attachments/assets/24ba3b05-bbc7-4e9d-9357-7b530bddc69f)
+![Arquitetura do Sistema](https://github.com/user-attachments/assets/a3c86f5d-10d0-4687-9933-9e12ceb2f970)
 
 ## Tecnologias Utilizadas
 
@@ -26,6 +26,7 @@ Cada microserviço possui:
 - **Containerização**: Docker e Docker Compose
 - **Frontend**: Aplicação web na porta 3000
 - **Gerenciamento de BD**: Adminer
+- **Nginx**
 
 ## Padrão de Comunicação
 
