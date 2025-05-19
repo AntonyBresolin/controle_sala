@@ -2,7 +2,6 @@ package com.github.ms_reserva.application;
 
 import com.github.ms_reserva.domain.model.Reserva;
 import com.github.ms_reserva.domain.repository.ReservaRepository;
-import com.github.ms_reserva.infrastructure.messaging.UsuarioValidacaoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

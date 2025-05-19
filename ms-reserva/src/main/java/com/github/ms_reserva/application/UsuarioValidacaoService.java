@@ -1,5 +1,6 @@
-package com.github.ms_reserva.infrastructure.messaging;
+package com.github.ms_reserva.application;
 
+import com.github.ms_reserva.infrastructure.messaging.UsuarioValidacaoProducer;
 import com.github.ms_reserva.infrastructure.messaging.dto.UsuarioValidacaoMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,23 +12,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class UsuarioValidacaoService {
 
-    private final RabbitTemplate rabbitTemplate;
-    private final String requestQueue;
+    private final UsuarioValidacaoProducer usuarioProducer;
     private final ConcurrentHashMap<Long, CompletableFuture<Boolean>> pendingValidations = new ConcurrentHashMap<>();
 
-    public UsuarioValidacaoService(
-            RabbitTemplate rabbitTemplate,
-            @Value("${rabbitmq.queue.usuario.validacao.request}") String requestQueue) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.requestQueue = requestQueue;
+    public UsuarioValidacaoService(UsuarioValidacaoProducer usuarioProducer) {
+        this.usuarioProducer = usuarioProducer;
     }
 
     public CompletableFuture<Boolean> validarUsuario(Long usuarioId) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         pendingValidations.put(usuarioId, future);
 
-        rabbitTemplate.convertAndSend(requestQueue, new UsuarioValidacaoMessage(usuarioId, false));
-
+        usuarioProducer.enviarRequisicao(new UsuarioValidacaoMessage(usuarioId, false));
         return future;
     }
 
